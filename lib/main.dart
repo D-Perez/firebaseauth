@@ -1,34 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'dart:math';
+import 'login_signup_page.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
-}
-
-class LoginPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Firebase Authentication'),
-      ),
-    );
-  }
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Authentication',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-      ),
-      home: LoginPage(),
-    );
+    Widget showCircularProgress() {
+      if (_isLoading) {
+        return Center(child: CircularProgressIndicator());
+      }
+      return Container(
+        height: 0.0,
+        width: 0.0,
+      );
+    }
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Flutter login demo'),
+        ),
+        body: Stack(
+          children: <Widget>[
+            showForm(),
+            showCircularProgress(),
+          ],
+        ));
   }
-}
+
