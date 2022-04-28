@@ -1,8 +1,15 @@
 // Table for the notes
+import 'package:firebaseauth/model/note.dart';
+
 final String tableNotes = 'notes';
 
 // Column names for the table
 class NoteFields {
+  // A list of all the values in the database
+  static final List<String> values = [
+    id, isImportant, number, title, description, time
+  ];
+
   static final String id = '_id';
   static final String isImportant = 'isImportant';
   static final String number = 'number';
@@ -29,5 +36,44 @@ class Note {
   required this.description,
   required this.createdTime,
 
-});
+  });
+
+  Note copy({
+    int? id,
+    bool? isImportant,
+    int? number,
+    String? title,
+    String? description,
+    DateTime? createdTime,
+  }) =>
+        Note(
+          id: id ?? this.id,
+          isImportant: isImportant ?? this.isImportant,
+          number:  number ?? this.number,
+          title: title ?? this.title,
+          description: description ?? this.description,
+          createdTime: createdTime ?? this.createdTime,
+        );
+
+  // Converting back from json to our notes type
+  // createdTime and isImportant are two special cases as their types
+  // are not natively supported by json and must be converted
+  static Note fromJson(Map<String, Object?> json) => Note(
+    id: json[NoteFields.id] as int?,
+    isImportant: json[NoteFields.isImportant] == 1,
+    number: json[NoteFields.number] as int,
+    title: json[NoteFields.title] as String,
+    description: json[NoteFields.description] as String,
+    createdTime: DateTime.parse(json[NoteFields.time] as String)
+  );
+
+  // Function to map our values to the columns in the database
+  Map<String, Object?> toJson() => {
+    NoteFields.id: id,
+    NoteFields.title: title,
+    NoteFields.isImportant: isImportant ? 1 : 0,
+    NoteFields.number:number,
+    NoteFields.description: description,
+    NoteFields.time: createdTime.toIso8601String(),
+  };
 }
