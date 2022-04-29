@@ -1,6 +1,4 @@
 // Table for the notes
-import 'package:firebaseauth/model/note.dart';
-
 final String tableNotes = 'notes';
 
 // Column names for the table
@@ -28,14 +26,13 @@ class Note {
   final String description;
   final DateTime createdTime;
 
-  const Note ({
-  this.id,
-  required this.isImportant,
-  required this.number,
-  required this.title,
-  required this.description,
-  required this.createdTime,
-
+  const Note({
+    this.id,
+    required this.isImportant,
+    required this.number,
+    required this.title,
+    required this.description,
+    required this.createdTime,
   });
 
   Note copy({

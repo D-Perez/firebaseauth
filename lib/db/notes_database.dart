@@ -14,18 +14,17 @@ class NotesDatabase {
   NotesDatabase._init();
 
   Future<Database> get database async {
-    if (_database != null) {
-      return _database!;
-    }
+    if (_database != null) return _database!;
 
     _database = await _initDB('notes.db');
     return _database!;
   }
 
   // Function for initializing the database
-  Future <Database> _initDB(String filePath) async {
+  Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
-    final path = join (dbPath, filePath);
+    final path = join(dbPath, filePath);
+
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
@@ -37,15 +36,15 @@ class NotesDatabase {
     final integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
-  CREATE TABLE $tableNotes (
-    "${NoteFields.id}" $idType,
-    "${NoteFields.isImportant}", $boolType,
-    "${NoteFields.number}", $integerType,
-    "${NoteFields.title}", $textType,
-    "${NoteFields.description}", $textType,
-    "${NoteFields.time}", $textType
-    )
-  ''');
+CREATE TABLE $tableNotes ( 
+  ${NoteFields.id} $idType,
+  ${NoteFields.isImportant} $boolType,
+  ${NoteFields.number} $integerType,
+  ${NoteFields.title} $textType,
+  ${NoteFields.description} $textType,
+  ${NoteFields.time} $textType
+  )
+''');
   }
 
   Future<Note> create(Note note) async {
