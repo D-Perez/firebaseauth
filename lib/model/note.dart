@@ -65,6 +65,7 @@ class Note {
   );
 
   // Function to map our values to the columns in the database
+  // Converts our notetype to a json file
   Map<String, Object?> toJson() => {
     NoteFields.id: id,
     NoteFields.title: title,

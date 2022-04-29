@@ -14,17 +14,22 @@ class NotesDatabase {
   NotesDatabase._init();
 
   Future<Database> get database async {
+    // Returns the database if it already exists
     if (_database != null) return _database!;
 
+    // Initializes the database if it does not exist and returns it
     _database = await _initDB('notes.db');
     return _database!;
   }
 
   // Function for initializing the database
   Future<Database> _initDB(String filePath) async {
+    // Gets the file path for the databases
     final dbPath = await getDatabasesPath();
+    // Creates the entire filepath for the database
     final path = join(dbPath, filePath);
 
+    // Opens the database using the path, version number, and the database schema
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
@@ -97,7 +102,7 @@ CREATE TABLE $tableNotes (
     );
   }
 
-  // Function for closing our data base
+  // Function for closing our database
   Future close() async {
     final db = await instance.database;
     db.close();
