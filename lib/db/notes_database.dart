@@ -52,12 +52,16 @@ CREATE TABLE $tableNotes (
 ''');
   }
 
+
+  // Function to create a note object in the database
   Future<Note> create(Note note) async {
     final db = await instance.database;
     final id = await db.insert(tableNotes, note.toJson());
     return note.copy(id: id);
   }
 
+
+  // Function to read a note object from the database
   Future<Note> readNote(int id) async {
     final db = await instance.database;
     final maps = await db.query(
@@ -75,6 +79,7 @@ CREATE TABLE $tableNotes (
     }
   }
 
+  // Returns all the notes in the database by ascending order
   Future<List<Note>> readAllNotes() async {
     final db = await instance.database;
     final orderBy = '${NoteFields.time} ASC';
@@ -82,6 +87,7 @@ CREATE TABLE $tableNotes (
     return result.map((json) => Note.fromJson(json)).toList();
   }
 
+  // Updates a note that exists within the database
   Future<int> update(Note note) async {
     final db = await instance.database;
     return db.update(
@@ -92,6 +98,8 @@ CREATE TABLE $tableNotes (
     );
   }
 
+
+  // Function to delete a note from the database
   Future<int> delete(int id) async {
     final db = await instance.database;
 
